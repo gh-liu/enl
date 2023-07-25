@@ -26,6 +26,7 @@ tracing-log = { version = "0.1.3" }
 tracing-actix-web = "0.7.5"
 once_cell = "1.18.0"
 secrecy = { version = "0.8.0", features = ["serde"] }
+serde-aux = { version = "4.2.0" }
 
 [dependencies.uuid]
 version = "1.4.1"
@@ -38,5 +39,5 @@ features = ["macros", "rt-multi-thread"]
 [dependencies.sqlx]
 version = "0.6"
 default_features = false
-features = ["runtime-actix-rustls", "macros", "postgres", "uuid", "chrono", "migrate"]
+features = ["runtime-actix-rustls", "macros", "postgres", "uuid", "chrono", "migrate", "offline"]
 
