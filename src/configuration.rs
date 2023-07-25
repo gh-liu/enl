@@ -1,3 +1,5 @@
+use secrecy::{ExposeSecret, Secret};
+
 #[derive(serde::Deserialize)]
 pub struct Settings {
     pub database: DatabaseSettings,
@@ -9,23 +11,30 @@ pub struct DatabaseSettings {
     pub host: String,
     pub port: u16,
     pub user: String,
-    pub password: String,
+    pub password: Secret<String>,
     pub database_name: String,
 }
 
 impl DatabaseSettings {
-    pub fn connection_string(&self) -> String {
-        format!(
+    pub fn connection_string(&self) -> Secret<String> {
+        Secret::new(format!(
             "postgres://{}:{}@{}:{}/{}",
-            self.user, self.password, self.host, self.port, self.database_name,
-        )
+            self.user,
+            self.password.expose_secret(),
+            self.host,
+            self.port,
+            self.database_name,
+        ))
     }
 
-    pub fn connection_string_without_db(&self) -> String {
-        format!(
+    pub fn connection_string_without_db(&self) -> Secret<String> {
+        Secret::new(format!(
             "postgres://{}:{}@{}:{}",
-            self.user, self.password, self.host, self.port,
-        )
+            self.user,
+            self.password.expose_secret(),
+            self.host,
+            self.port,
+        ))
     }
 }
 

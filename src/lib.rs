@@ -1,6 +1,7 @@
 pub mod configuration;
 pub mod routes;
 pub mod startup;
+pub mod telemetry;
 
 // #[actix_web::get("/health_check")]
 // async fn health_check() -> impl Responder {
