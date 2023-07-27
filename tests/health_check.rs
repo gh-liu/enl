@@ -1,6 +1,5 @@
 use std::net::TcpListener;
 
-use secrecy::ExposeSecret;
 use sqlx::Connection;
 use sqlx::Executor;
 use sqlx::PgConnection;
@@ -123,25 +122,31 @@ async fn subscribe_returns_a_200_for_valid_form_data() {
 
     let client = reqwest::Client::new();
 
-    let body = "name=allen%20liu&email=liughcs%40gmail.com";
+    let test_cases = vec![("name=allen&email=liughcs%40gmail.com", "empty name")];
 
-    let resp = client
-        .post(format!("{}/subscriptions", &app.address))
-        .header("Content-Type", "application/x-www-form-urlencoded")
-        .body(body)
-        .send()
-        .await
-        .expect("fail to execute request.");
+    for (body, desc) in test_cases {
+        let resp = client
+            .post(format!("{}/subscriptions", &app.address))
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .body(body)
+            .send()
+            .await
+            .expect("fail to execute request.");
 
-    assert_eq!(resp.status().as_u16(), 200);
+        assert_eq!(
+            resp.status().as_u16(),
+            200,
+            "The API did not return a 200 OK when the payload was {}.",
+            desc
+        );
+    }
 }
 
 async fn configure_database(config: &DatabaseSettings) -> PgPool {
     // Create database
-    let mut connection =
-        PgConnection::connect_with(&config.without_db())
-            .await
-            .expect("Failed to connect to Postgres");
+    let mut connection = PgConnection::connect_with(&config.without_db())
+        .await
+        .expect("Failed to connect to Postgres");
     connection
         .execute(&*format!(r#"CREATE DATABASE "{}";"#, config.database_name))
         .await
