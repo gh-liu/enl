@@ -14,7 +14,7 @@ name = "enl"
 actix-web = "4.3.1"
 serde = { version = "1.0.174", features = ["derive"] }
 serde_urlencoded = "0.7.1"
-rand = { version = "0.8.5" }
+rand = { version = "0.8", features=["std_rng"] }
 config = { version = "0.13.3" }
 chrono = { version = "0.4.26", features = ["clock"] }
 log = { version = "0.4.19" }
@@ -27,7 +27,8 @@ once_cell = "1.18.0"
 secrecy = { version = "0.8.0", features = ["serde"] }
 serde-aux = { version = "4.2.0" }
 unicode-segmentation = { version = "1" }
-validator="0.16.1"
+validator = { version = "0.16.1" }
+reqwest = { version = "0.11.18", features = ["json" , "rustls-tls"] }
 
 [dependencies.uuid]
 version = "1.4.1"
@@ -44,6 +45,9 @@ features = ["runtime-actix-rustls", "macros", "postgres", "uuid", "chrono", "mig
 
 [dev-dependencies]
 claims = { version = "0.7.0" }
-reqwest = { version = "0.11.18", features = ["json"] }
 fake = { version = "2.6.1" }
 quickcheck = { version = "1.0.3" }
+tokio = { version = "1.29.1", features = ["rt", "macros"] }
+wiremock = { version = "0.5.19" }
+serde_json = "1.0.104"
+linkify = "0.10.0"
