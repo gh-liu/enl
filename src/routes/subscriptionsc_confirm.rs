@@ -16,7 +16,6 @@ pub async fn confirm(paramters: web::Query<Parameters>, pool: web::Data<PgPool>)
 
     HttpResponse::Ok().finish()
 }
-
 #[tracing::instrument(name = "Get subscriber_id from token", skip(subscription_token, pool))]
 pub async fn get_subscriber_id_from_token(
     pool: &PgPool,
@@ -28,6 +27,5 @@ pub async fn get_subscriber_id_from_token(
     )
     .fetch_optional(pool)
     .await?;
-
     Ok(result.map(|r| r.subscriber_id))
 }

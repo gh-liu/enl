@@ -675,6 +675,7 @@ name = "enl"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "anyhow",
  "chrono",
  "claims",
  "config",
@@ -691,6 +692,7 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "sqlx",
+ "thiserror",
  "tokio",
  "tracing",
  "tracing-actix-web",
